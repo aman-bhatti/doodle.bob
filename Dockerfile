@@ -1,49 +1,32 @@
 # syntax = docker/dockerfile:1
 
-# Adjust NODE_VERSION as desired
 ARG NODE_VERSION=20.18.0
-FROM node:${NODE_VERSION}-slim AS base
+FROM node:${NODE_VERSION}-slim
 
-LABEL fly_launch_runtime="Vite"
-
-# Vite app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+ENV NODE_ENV=production
 
 # Install pnpm
 ARG PNPM_VERSION=latest
 RUN npm install -g pnpm@$PNPM_VERSION
 
-
-# Throw-away build stage to reduce size of final image
-FROM base AS build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
+# Copy package files and install dependencies
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Copy application code
+# Copy the rest of your code
 COPY . .
 
-# Build application
+# Build frontend
 RUN pnpm run build
 
-# Remove development dependencies
+# Prune dev dependencies
 RUN pnpm prune --prod
 
+# Expose the port your server listens on
+EXPOSE 5678
 
-# Final stage for app image
-FROM nginx
+# Start your server
+CMD ["node", "server.js"]
 
-# Copy built application
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 80
-CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]

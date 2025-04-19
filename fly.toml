@@ -8,6 +8,11 @@ primary_region = 'iad'
 
 [build]
 
+[env]
+  HOST = "0.0.0.0"
+  PORT = "5678"
+
+
 [http_service]
   internal_port = 5678
   force_https = true
