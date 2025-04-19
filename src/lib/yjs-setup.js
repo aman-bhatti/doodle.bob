@@ -209,7 +209,11 @@ try {
       
       const userColor = generateColor();
       
-      const wsServerUrl = 'ws://localhost:5678';
+      // Use a relative WebSocket URL for better production compatibility
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsHost = import.meta.env.PROD ? window.location.host : 'localhost:5678';
+      const wsServerUrl = `${wsProtocol}//${wsHost}`;
+      
       const roomName = `whiteboard-${roomData.roomCode}`;
       
       const persistedUserData = userPersistence.loadUserData();

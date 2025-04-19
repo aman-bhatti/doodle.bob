@@ -5,7 +5,9 @@ import http from 'http';
 import { setupWSConnection } from 'y-websocket/bin/utils';
 import * as Y from 'yjs';
 
-const host = process.env.HOST || 'localhost';
+// Use environment variables with safe defaults for host and port
+// Default to all interfaces in production for better hosting compatibility
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 5678;
 
 const server = http.createServer((request, response) => {
