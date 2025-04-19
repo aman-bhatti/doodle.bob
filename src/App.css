@@ -65,3 +65,25 @@ button:hover {
 button:active {
   transform: translateY(1px);
 }
+
+.fade-in-fast{
+  animation: fade-in 0.1s ease-in-out;
+}
+.fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.fade-in-slow {
+  animation: fade-in 0.8s ease-in-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

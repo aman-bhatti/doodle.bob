@@ -87,10 +87,10 @@ const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
         />
       </button>
 
-      <h1 className="text-7xl font-bold mb-8 relative z-10 text-black dark:text-white">
+      <h1 className="text-7xl font-bold mb-8 relative z-10 text-black dark:text-white fade-in">
         doodle.bob
       </h1>
-      <h2 className="text-lg sm:text-xl font-semibold text-center flex items-center mb-8 relative z-10 text-black dark:text-white">
+      <h2 className="text-lg sm:text-xl font-semibold text-center flex items-center mb-8 relative z-10 text-black dark:text-white fade-in">
         a whiteboard for everyone
         <img
           alt="milkyway"
@@ -178,7 +178,11 @@ const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
               </div>
             )}
 
-            {error && <div className="text-red-500 dark:text-red-400 text-sm mb-4">{error}</div>}
+            {error && (
+              <div className="text-red-500 dark:text-red-400 text-sm mb-4">
+                {error}
+              </div>
+            )}
 
             <div className="flex space-x-3">
               <button
