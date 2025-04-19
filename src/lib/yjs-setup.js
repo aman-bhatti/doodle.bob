@@ -211,7 +211,9 @@ try {
       
       // Use a relative WebSocket URL for better production compatibility
       const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsHost = import.meta.env.PROD ? window.location.host : 'localhost:5678';
+      const wsHost = import.meta.env.PROD ? 
+        import.meta.env.VITE_WS_URL || window.location.host : 
+        'localhost:5678';
       const wsServerUrl = `${wsProtocol}//${wsHost}`;
       
       const roomName = `whiteboard-${roomData.roomCode}`;

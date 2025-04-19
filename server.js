@@ -1,29 +1,17 @@
 #!/usr/bin/env node
 
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import { WebSocketServer } from "ws";
 import http from "http";
 import { setupWSConnection } from "y-websocket/bin/utils";
 import * as Y from "yjs";
 
-// Use environment variables with safe defaults for host and port
-const host = process.env.HOST || "0.0.0.0";
+const host = process.env.HOST || "localhost";
 const port = process.env.PORT || 5678;
 
-const app = express();
-
-// Serve static files from the frontend build
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, "dist")));
-
-// Fallback to index.html for SPA routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+const server = http.createServer((request, response) => {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  response.end("WebSocket server for Collaborative Whiteboard\n");
 });
-
-const server = http.createServer(app);
 
 const wss = new WebSocketServer({
   server,
@@ -33,6 +21,7 @@ const wss = new WebSocketServer({
 const connections = new Map();
 const rooms = new Map();
 const docs = new Map();
+
 const clientIds = new Set();
 
 const pingInterval = setInterval(() => {
@@ -179,4 +168,3 @@ process.on("SIGINT", () => {
   server.close();
   process.exit(0);
 });
-
