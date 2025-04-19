@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { generateRoomCode, generateUserName } from "../utils/helpers";
+import milkyway from "../assets/milkyway.svg";
+import andromeda from "../assets/andromeda.svg";
 
 const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
   const [userName, setUserName] = useState("");
@@ -75,14 +77,11 @@ const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
       <h2 className=" text-black text-lg sm:text-xl font-semibold text-center flex items-center gap-2 mb-4">
         a whiteboard for everyone
         <img
-          alt="logo"
+          alt="milkyway"
           class="-mt-1"
-          style={{
-            width: "50px",
-            height: "auto",
-            backgroundColor: "white",
-          }}
-          src="/logo.png"
+          width={32}
+          height={32}
+          src={milkyway}
         />
       </h2>
       {!showForm ? (
@@ -188,4 +187,3 @@ const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
 };
 
 export default RoomSelection;
-
