@@ -15,12 +15,10 @@ const Toolbar = () => {
     clearCanvas,
   } = useWhiteboardStore();
   
-  // State to manage color palette visibility on mobile
   const [showColorPalette, setShowColorPalette] = useState(false);
   const [showSizeControl, setShowSizeControl] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
-  // Check if we're on mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -68,14 +66,13 @@ const Toolbar = () => {
 
   return (
     <>
-      {/* Main toolbar */}
-      <div className="fixed bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white rounded-xl shadow-lg border border-gray-200 px-2 md:px-6 py-2 md:py-3 flex items-center gap-1 md:gap-5 max-w-full md:max-w-3xl overflow-x-auto touch-none">
+      <div className="fixed bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 px-2 md:px-6 py-2 md:py-3 flex items-center gap-1 md:gap-5 max-w-full md:max-w-3xl overflow-x-auto touch-none transition-colors duration-200">
         <div className="flex items-center gap-1 md:gap-2">
           <button
             className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all ${
               currentTool === TOOLS.SELECT 
                 ? 'bg-blue-500 text-white shadow-sm' 
-                : 'text-gray-600 hover:bg-gray-100'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={() => handleToolClick(TOOLS.SELECT)}
             title="Select"
@@ -86,7 +83,7 @@ const Toolbar = () => {
             className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all ${
               currentTool === TOOLS.PEN 
                 ? 'bg-blue-500 text-white shadow-sm' 
-                : 'text-gray-600 hover:bg-gray-100'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={() => handleToolClick(TOOLS.PEN)}
             title="Pen"
@@ -97,7 +94,7 @@ const Toolbar = () => {
             className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all ${
               currentTool === TOOLS.RECTANGLE 
                 ? 'bg-blue-500 text-white shadow-sm' 
-                : 'text-gray-600 hover:bg-gray-100'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={() => handleToolClick(TOOLS.RECTANGLE)}
             title="Rectangle"
@@ -108,7 +105,7 @@ const Toolbar = () => {
             className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all ${
               currentTool === TOOLS.CIRCLE 
                 ? 'bg-blue-500 text-white shadow-sm' 
-                : 'text-gray-600 hover:bg-gray-100'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={() => handleToolClick(TOOLS.CIRCLE)}
             title="Circle"
@@ -119,7 +116,7 @@ const Toolbar = () => {
             className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all ${
               currentTool === TOOLS.PAN 
                 ? 'bg-blue-500 text-white shadow-sm' 
-                : 'text-gray-600 hover:bg-gray-100'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={() => handleToolClick(TOOLS.PAN)}
             title="Pan"
@@ -128,13 +125,12 @@ const Toolbar = () => {
           </button>
         </div>
 
-        <div className="h-9 md:h-10 w-px bg-gray-200 mx-1"></div>
+        <div className="h-9 md:h-10 w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
-        {/* Color selector - on mobile, show toggle button */}
         {isMobile ? (
           <button
             className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
-              showColorPalette ? 'bg-blue-500 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100'
+              showColorPalette ? 'bg-blue-500 text-white shadow-sm' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={toggleColorPalette}
             title="Colors"
@@ -146,7 +142,7 @@ const Toolbar = () => {
             {colorPalette.map(color => (
               <button
                 key={color}
-                className={`w-5 h-5 md:w-6 md:h-6 rounded-full cursor-pointer transition-transform hover:scale-110 ${color === '#FFFFFF' ? 'border border-gray-300' : ''} ${color === strokeColor ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                className={`w-5 h-5 md:w-6 md:h-6 rounded-full cursor-pointer transition-transform hover:scale-110 ${color === '#FFFFFF' ? 'border border-gray-300 dark:border-gray-600' : ''} ${color === strokeColor ? 'ring-2 ring-offset-1 ring-blue-500 dark:ring-blue-400' : ''}`}
                 style={{ backgroundColor: color }}
                 onClick={() => setStrokeColor(color)}
                 title={color}
@@ -155,13 +151,12 @@ const Toolbar = () => {
           </div>
         )}
 
-        <div className="h-9 md:h-10 w-px bg-gray-200 mx-1"></div>
+        <div className="h-9 md:h-10 w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
-        {/* Size control - on mobile, show toggle button */}
         {isMobile ? (
           <button
             className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
-              showSizeControl ? 'bg-blue-500 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100'
+              showSizeControl ? 'bg-blue-500 text-white shadow-sm' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
             onClick={toggleSizeControl}
             title="Stroke Width"
@@ -178,7 +173,7 @@ const Toolbar = () => {
               onChange={handleStrokeWidthChange}
               className="w-20 md:w-24 accent-blue-500"
             />
-            <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-gray-200 flex items-center justify-center">
+            <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
               <div 
                 className="rounded-full bg-current" 
                 style={{ 
@@ -191,10 +186,10 @@ const Toolbar = () => {
           </div>
         )}
 
-        <div className="h-9 md:h-10 w-px bg-gray-200 mx-1"></div>
+        <div className="h-9 md:h-10 w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
         <button
-          className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 transition-colors"
+          className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
           onClick={() => {
             if (window.confirm('Are you sure you want to clear the canvas? This action cannot be undone.')) {
               clearCanvas();
@@ -206,13 +201,12 @@ const Toolbar = () => {
         </button>
       </div>
       
-      {/* Mobile color palette popup */}
       {isMobile && showColorPalette && (
-        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white rounded-xl shadow-lg border border-gray-200 p-2 flex flex-wrap justify-center gap-2 w-64">
+        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-2 flex flex-wrap justify-center gap-2 w-64 transition-colors duration-200">
           {colorPalette.map(color => (
             <button
               key={color}
-              className={`w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110 ${color === '#FFFFFF' ? 'border border-gray-300' : ''} ${color === strokeColor ? 'ring-2 ring-offset-2 ring-blue-500' : ''}`}
+              className={`w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110 ${color === '#FFFFFF' ? 'border border-gray-300 dark:border-gray-600' : ''} ${color === strokeColor ? 'ring-2 ring-offset-2 ring-blue-500 dark:ring-blue-400' : ''}`}
               style={{ backgroundColor: color }}
               onClick={() => {
                 setStrokeColor(color);
@@ -224,11 +218,10 @@ const Toolbar = () => {
         </div>
       )}
       
-      {/* Mobile size control popup */}
       {isMobile && showSizeControl && (
-        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white rounded-xl shadow-lg border border-gray-200 p-4 w-64">
+        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-4 w-64 transition-colors duration-200">
           <div className="flex items-center justify-between gap-3 mb-2">
-            <span className="text-sm text-gray-600">1</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">1</span>
             <input
               type="range"
               min="1"
@@ -237,10 +230,10 @@ const Toolbar = () => {
               onChange={handleStrokeWidthChange}
               className="w-40 accent-blue-500"
             />
-            <span className="text-sm text-gray-600">10</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">10</span>
           </div>
           <div className="flex justify-center">
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
               <div 
                 className="rounded-full" 
                 style={{ 

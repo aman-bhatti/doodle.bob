@@ -5,6 +5,7 @@ import RoomSelection from './components/RoomSelection'
 import RoomInfo from './components/RoomInfo'
 import TopBar from './components/TopBar/TopBar'
 import { setRoomData, getSetupError } from './lib/yjs-setup'
+import { DarkModeProvider } from './contexts/DarkModeContext';
 import './App.css'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -177,33 +178,35 @@ function App() {
   }
 
   return (
-    <div className="app">
-      {roomJoined ? (
-        <>
-          <TopBar 
-            roomData={{
-              ...roomData,
-              onLeaveRoom: handleLeaveRoom
-            }} 
+    <DarkModeProvider>
+      <div className="app dark:bg-gray-900 transition-colors duration-200">
+        {roomJoined ? (
+          <>
+            <TopBar 
+              roomData={{
+                ...roomData,
+                onLeaveRoom: handleLeaveRoom
+              }} 
+            />
+            <div className="pt-12">
+              <Canvas 
+                roomData={roomData} 
+                key={`canvas-${roomData?.roomCode}-${roomData?.userName}`}
+              />
+              <Toolbar />
+              <RoomInfo 
+                roomData={roomData} 
+              />
+            </div>
+          </>
+        ) : (
+          <RoomSelection 
+            onJoinRoom={handleJoinRoom} 
+            initialRoomCode={new URL(window.location.href).searchParams.get('room')}
           />
-          <div className="pt-12">
-            <Canvas 
-              roomData={roomData} 
-              key={`canvas-${roomData?.roomCode}-${roomData?.userName}`}
-            />
-            <Toolbar />
-            <RoomInfo 
-              roomData={roomData} 
-            />
-          </div>
-        </>
-      ) : (
-        <RoomSelection 
-          onJoinRoom={handleJoinRoom} 
-          initialRoomCode={new URL(window.location.href).searchParams.get('room')}
-        />
-      )}
-    </div>
+        )}
+      </div>
+    </DarkModeProvider>
   )
 }
 

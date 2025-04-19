@@ -66,7 +66,6 @@ const Canvas = ({ roomData }) => {
     
     document.addEventListener('mousemove', handleGlobalMouseMove, true);
     
-    // No longer need the global touch listener as we're handling touch directly on the canvas
     
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect();
@@ -166,7 +165,6 @@ const Canvas = ({ roomData }) => {
 
   
   const handleMouseDown = (e) => {
-    // No need for preventDefault here as it's handled in the event listener
     
     const pos = getPointerPosition(e);
     setIsDrawing(true);
@@ -214,7 +212,6 @@ const Canvas = ({ roomData }) => {
   };
 
   const handleMouseMove = (e) => {
-    // No need for preventDefault here as it's handled in the event listener
     
     handleCursorMove(e);
     
@@ -254,7 +251,6 @@ const Canvas = ({ roomData }) => {
   };
 
   const handleMouseUp = (e) => {
-    // No need for preventDefault here as it's handled in the event listener
     
     setIsDrawing(false);
     handleCursorMove(e);
@@ -263,7 +259,6 @@ const Canvas = ({ roomData }) => {
   
   const currentUserName = roomData?.userName || '';
 
-  // Add this useEffect to handle touch events with native event listeners
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -286,13 +281,12 @@ const Canvas = ({ roomData }) => {
       handleMouseUp(e);
     };
     
-    // Add touch event listeners with passive: false explicitly
+    
     canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
     canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
     
     return () => {
-      // Clean up event listeners
       canvas.removeEventListener('touchstart', handleTouchStart);
       canvas.removeEventListener('touchmove', handleTouchMove);
       canvas.removeEventListener('touchend', handleTouchEnd);
@@ -310,7 +304,6 @@ const Canvas = ({ roomData }) => {
         onMouseLeave={handleMouseUp}
       />
       
-      {/* Remote users' cursors */}
       <RemoteCursors currentUserName={currentUserName} />
     </div>
   );

@@ -8,14 +8,18 @@ import {
   faFilePdf,
   faFileImage,
   faSignOutAlt,
+  faMoon,
+  faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAwareness } from "../../hooks/useYjsBinding";
 import { formatRoomCode } from "../../utils/helpers";
+import { useDarkMode } from "../../contexts/DarkModeContext";
 
 const TopBar = ({ roomData }) => {
   const [showUsersDropdown, setShowUsersDropdown] = useState(false);
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
   const users = useAwareness();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const toggleUsersDropdown = () => {
     setShowUsersDropdown(!showUsersDropdown);
@@ -110,14 +114,26 @@ const TopBar = ({ roomData }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-white h-12 z-50 flex items-center justify-between px-4">
+    <div className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 h-12 z-50 flex items-center justify-between px-4 shadow-sm transition-colors duration-200">
       <div className="flex items-center">
-        <h1 className="text-lg font-mono font-semibold text-gray-700">
+        <h1 className="text-lg font-mono font-semibold text-gray-700 dark:text-gray-200">
           {domainDisplay}
         </h1>
       </div>
 
       <div className="flex items-center space-x-4">
+        <button
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          onClick={toggleDarkMode}
+          title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          <FontAwesomeIcon
+            icon={isDarkMode ? faSun : faMoon}
+            className={`${isDarkMode ? "text-yellow-400" : "text-blue-500"}`}
+            size="lg"
+          />
+        </button>
+        
         <div className="relative">
           <button
             className="p-2 flex items-center gap-2"
@@ -125,18 +141,18 @@ const TopBar = ({ roomData }) => {
           >
             <FontAwesomeIcon
               icon={faUsers}
-              className="text-blue-500"
+              className="text-blue-500 dark:text-blue-400"
               size="lg"
             />
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {users?.length || 0}
             </span>
           </button>
 
           {showUsersDropdown && (
-            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+            <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
               <div className="max-h-80 overflow-y-auto">
-                <ul className="divide-y divide-gray-100">
+                <ul className="divide-y divide-gray-100 dark:divide-gray-700">
                   {users && users.length > 0 ? (
                     users.map((user) => {
                       const brightColors = [
@@ -167,15 +183,15 @@ const TopBar = ({ roomData }) => {
                             {user.name ? user.name.charAt(0) : "A"}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-800">
+                            <p className="font-medium text-gray-800 dark:text-gray-200">
                               {user.name || "Anonymous"}
                               {roomData && roomData.userName === user.name && (
-                                <span className="ml-2 text-xs font-medium text-blue-600">
+                                <span className="ml-2 text-xs font-medium text-blue-600 dark:text-blue-400">
                                   (You)
                                 </span>
                               )}
                             </p>
-                            <p className="text-gray-500 text-xs">
+                            <p className="text-gray-500 dark:text-gray-400 text-xs">
                               {user.currentTool
                                 ? `Using: ${user.currentTool}`
                                 : "Viewing"}
@@ -185,7 +201,7 @@ const TopBar = ({ roomData }) => {
                       );
                     })
                   ) : (
-                    <li className="py-3 px-4 text-sm text-gray-500">
+                    <li className="py-3 px-4 text-sm text-gray-500 dark:text-gray-400">
                       No users connected
                     </li>
                   )}
@@ -200,18 +216,22 @@ const TopBar = ({ roomData }) => {
             className="p-2 flex items-center gap-2"
             onClick={toggleSettingsDropdown}
           >
-            <FontAwesomeIcon icon={faCog} className="text-blue-500" size="lg" />
+            <FontAwesomeIcon 
+              icon={faCog} 
+              className="text-blue-500 dark:text-blue-400" 
+              size="lg" 
+            />
           </button>
 
           {showSettingsDropdown && (
-            <div className="absolute right-0 mt-2 w-60 bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+            <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
               <div className="px-4 pt-3 pb-2">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Export
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 flex items-center bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 flex items-center bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     onClick={handleSaveAsPng}
                   >
                     <FontAwesomeIcon
@@ -222,7 +242,7 @@ const TopBar = ({ roomData }) => {
                     <span>PNG Image</span>
                   </button>
                   <button
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 flex items-center bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 flex items-center bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     onClick={handleSaveAsPdf}
                   >
                     <FontAwesomeIcon
@@ -235,36 +255,39 @@ const TopBar = ({ roomData }) => {
                 </div>
               </div>
 
-              <div className="border-t border-gray-100 mt-2"></div>
+              <div className="border-t border-gray-100 dark:border-gray-700 mt-2"></div>
 
               <div className="px-4 pt-3 pb-2">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Canvas
                 </h3>
-                <button className="w-full text-left px-3 py-2 text-sm text-gray-700 flex items-center bg-gray-50 rounded-md hover:bg-gray-100 transition-colors mb-2">
+                <button className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 flex items-center bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors mb-2">
                   <FontAwesomeIcon
                     icon={faCog}
-                    className="mr-2 text-gray-600"
+                    className="mr-2 text-gray-600 dark:text-gray-400"
                   />
                   <span>Canvas Options</span>
                 </button>
-                <button className="w-full text-left px-3 py-2 text-sm text-gray-700 flex items-center bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
+                <button
+                  className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 flex items-center bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  onClick={toggleDarkMode}
+                >
                   <FontAwesomeIcon
-                    icon={faUsers}
-                    className="mr-2 text-gray-600"
+                    icon={isDarkMode ? faSun : faMoon}
+                    className={`mr-2 ${isDarkMode ? "text-yellow-400" : "text-blue-500"}`}
                   />
-                  <span>Display Preferences</span>
+                  <span>{isDarkMode ? "Light Mode" : "Dark Mode"}</span>
                 </button>
               </div>
 
-              <div className="border-t border-gray-100 mt-2"></div>
+              <div className="border-t border-gray-100 dark:border-gray-700 mt-2"></div>
 
               <div className="px-4 pt-3 pb-4">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                   Room
                 </h3>
                 <button
-                  className="w-full text-left px-3 py-2 text-sm text-red-600 flex items-center bg-red-50 rounded-md hover:bg-red-100 transition-colors"
+                  className="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 flex items-center bg-red-50 dark:bg-red-900/30 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
                   onClick={() => {
                     if (
                       window.confirm("Are you sure you want to leave the room?")
