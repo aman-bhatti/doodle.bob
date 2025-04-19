@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { generateRoomCode, generateUserName } from "../utils/helpers";
 import milkyway from "../assets/milkyway.svg";
+import doodlebob from "../assets/doodlebob.svg";
 
 const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
   const [userName, setUserName] = useState("");
@@ -70,17 +71,17 @@ const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
     <div className="fixed inset-0 bg-white flex flex-col items-center justify-center">
       <div className="fixed inset-0 bg-white opacity-40 pointer-events-none"></div>
 
-      <h1 className="text-7xl font-bold mb-8 relative z-10 text-black">
-        milky.way
+      <h1 className="text-7xl font-bold mb-8 relative z-10 true-black">
+        doodle.bob
       </h1>
-      <h2 className=" text-black text-lg sm:text-xl font-semibold text-center flex items-center gap-2 mb-4">
+      <h2 className="text-lg sm:text-xl font-semibold text-center flex items-center mb-8 relative z-10 text-black">
         a whiteboard for everyone
         <img
           alt="milkyway"
-          class="-mt-1"
-          width={32}
-          height={32}
-          src={milkyway}
+          class="-mt-1 pl-2"
+          width={60}
+          height={60}
+          src={doodlebob}
         />
       </h2>
       {!showForm ? (

@@ -15,6 +15,11 @@
   }
 }
 
+/* Custom styling */
+.true-black {
+  color: #000000 !important;
+}
+
 /* Canvas-specific styling */
 canvas {
   touch-action: none !important;
