@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { generateRoomCode, generateUserName } from "../utils/helpers";
 import milkyway from "../assets/milkyway.svg";
-import andromeda from "../assets/andromeda.svg";
 
 const RoomSelection = ({ onJoinRoom, initialRoomCode }) => {
   const [userName, setUserName] = useState("");
